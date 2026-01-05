@@ -94,14 +94,3 @@ def get_collider_children(obj):
         if bs_plugin_data.object_get_bgs_collider(o).is_collider:
             rtv.append(o)
     return rtv
-
-def get_action_fcurves(action):
-    fcurves = []
-
-    for slot in action.slots:
-        for layer in slot.layers:
-            for strip in layer.strips:
-                channelbag = strip.channelbag(slot, True)
-                fcurves.extend(channelbag.fcurves)
-                    
-    return fcurves
