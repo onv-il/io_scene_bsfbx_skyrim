@@ -2436,8 +2436,10 @@ def fbx_animations(scene_data):
 
     # All actions.
     if scene_data.settings.bake_anim_use_all_actions:
-        def validate_actions(act, path_resolve):
-            for fc in act.fcurves:
+        def validate_actions(obj, act, path_resolve):
+            fcurves = bsutil.get_action_fcurves(act)
+
+            for fc in fcurves:
                 data_path = fc.data_path
                 if fc.array_index:
                     data_path = data_path + "[%d]" % fc.array_index
@@ -2497,7 +2499,7 @@ def fbx_animations(scene_data):
                 if bsutil.DO_EXPORT_FBX_BIN_ANIM_DEBUG_LOGGING:
                     print("fbx_animations bpy.data.actions:", act)
 
-                if act != org_act and not validate_actions(act, path_resolve):
+                if act != org_act and not validate_actions(ob, act, path_resolve):
                     continue
                 ob.animation_data.action = act
                 frame_start, frame_end = act.frame_range  # sic!
